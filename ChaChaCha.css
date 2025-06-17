@@ -1,0 +1,169 @@
+/* 背景與字體設定 */
+body {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    background: radial-gradient(circle at top center, #1a1a2e, #0f0f1a);
+    background-attachment: fixed;
+    overflow-x: hidden;
+    color: white;
+}
+
+/* 卡片容器調整 Bootstrap 列間距 */
+#cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    /*margin-top: 30px;*/
+    margin-left: -180px;
+    margin-right: -180px;
+    /*bottom: 0;*/
+    /*margin-top: 30px;Test!!!!!!!*/
+}
+
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #f0f;
+}
+
+/* 抽卡按鈕樣式 */
+button {
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px gold;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #ff0, 0 0 40px #f0f;
+}
+
+/* Spinner 抽卡動畫 */
+.spinner {
+    display: none;
+    margin: 20px auto;
+    width: 80px;
+    height: 80px;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid gold;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 卡片樣式 */
+.card-box {
+    flex: 1 1 calc(20% - 20px); /* 讓它一行最多放 5 張，減去 gap */
+    max-width: 240px;
+    aspect-ratio: 3 / 4; /* 統一比例 */
+    border-radius: 15px;
+    overflow: hidden;
+    border: 4px solid white;
+    position: relative;
+    animation: flipIn 0.6s ease;
+    background: #222;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    margin-left: 30px;
+    margin-right: 30px;
+    /*margin-bottom: 18px;*/
+    margin-top: 0px;
+}
+
+.card-box:hover {
+    transform: scale(1.1);
+    z-index: 10; /* 讓放大卡片蓋過其他 */
+}
+
+/* 圖片填滿卡片，不失真 */
+.card-box img {
+    width: 100%;
+    /*height: 100%;Test*/
+    object-fit: cover;
+    display: block;
+}
+
+/* 稀有度標籤 */
+.rarity-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    text-shadow: 0 0 3px #000;
+    text-align: center;
+}
+
+/* 稀有度邊框樣式 */
+.r-N    { border-color: gray; }
+.r-R    { border-color: royalblue; }
+.r-SR   { border-color: purple; }
+.r-SSR  { border-color: gold; box-shadow: 0 0 15px gold; }
+.r-UR   { border-color: crimson; box-shadow: 0 0 20px deeppink, 0 0 30px orange; }
+.r-SP   { border-color: white; animation: glow 1s infinite alternate; }
+
+/* 動畫 */
+@keyframes flipIn {
+    0% { transform: rotateY(90deg) scale(0.8); opacity: 0; }
+    100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px white; }
+    to   { box-shadow: 0 0 40px violet, 0 0 60px cyan; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+
+/* 按鈕容器的初始位置（中間）
+.Center-Buttons {
+    position: relative;
+    height: 100vh; /* 確保有足夠高度放置按鈕
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 垂直水平居中
+}*/
+
+/* 初始狀態：按鈕在畫面中間*/
+#ButtonWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: top 0.8s ease, transform 0.8s ease;
+    z-index: 9999;  /* 確保按鈕在最上層*/
+}
+
+/* 當抽卡後，按鈕向上移動*/
+#ButtonWrapper.To-Top {
+    top: 12%; /*調整為距離頁面頂部 10%*/
+    transform: translate(-50%, -12%);
+
+}
+
+
+
+
+/* 粒子背景範圍調整 */
+#HoHoHo-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
