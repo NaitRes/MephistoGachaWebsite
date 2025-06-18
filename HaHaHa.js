@@ -1,9 +1,10 @@
-const singleDrawBtn = document.getElementById("singleDrawBtn");
-const drawBtn = document.getElementById("drawBtn");
+const SingleDrawBtn = document.getElementById("SingleDrawBtn");
+const DrawBtn = document.getElementById("DrawBtn");
 const container = document.getElementById("cardContainer");
 const spinner = document.getElementById("gacha-spinner");
 
 const SoundOfClick = document.getElementById("SoundOfClick");
+const SoundOfHover = document.getElementById("SoundOfHover");
 const SoundOfN = document.getElementById("SoundOfN");
 const SoundOfR = document.getElementById("SoundOfR");
 const SoundOfSR = document.getElementById("SoundOfSR");
@@ -15,8 +16,19 @@ const BGM = document.getElementById("BGM");
 let BgmPlayed = false;
 
 
-singleDrawBtn.addEventListener("click", () => drawCards(1));
-drawBtn.addEventListener("click", () => drawCards(10));
+SingleDrawBtn.addEventListener("click", () => DrawCards(1));
+DrawBtn.addEventListener("click", () => DrawCards(10));
+
+// 新增：按鈕hover音效
+SingleDrawBtn.addEventListener("mouseenter", () => {
+    SoundOfHover.currentTime = 0;
+    SoundOfHover.play();
+});
+DrawBtn.addEventListener("mouseenter", () => {
+    SoundOfHover.currentTime = 0;
+    SoundOfHover.play();
+});
+
 
 /*async function drawCards(count) {
     if (!bgmPlayed) {
@@ -40,7 +52,7 @@ drawBtn.addEventListener("click", () => drawCards(10));
     bindCardHoverSound();
 }*/
 
-async function drawCards(count) {
+async function DrawCards(count) {
     // Test!!!!!!!!!✅ 第一次抽卡時讓按鈕從中間移到上方
     if (!ButtonWrapper.classList.contains("To-Top")) {
         ButtonWrapper.classList.add("To-Top");
@@ -60,7 +72,12 @@ async function drawCards(count) {
         const meme = await fetch("https://api.waifu.pics/sfw/waifu").then(res => res.json());
         const rarity = getRarity();
         displayCard(meme, rarity);
-        await delay(200);
+
+        //await delay(300); 拉長出牌速度間距Test
+
+        let waitTime = 300;
+        //if (rarity === "UR" || rarity === "SP") waitTime = 1000;
+        await delay(waitTime);
     }
 
     spinner.style.display = "none";
@@ -77,6 +94,11 @@ function getRarity() {
     return "N";
 }
 
+function capitalizeFirstLetter(str) {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+} //卡牌名稱首字大寫Test
+
 function displayCard(meme, rarity) {
     const col = document.createElement("div");
     col.className = "card-box r-" + rarity + " col-md-3";
@@ -90,21 +112,57 @@ function displayCard(meme, rarity) {
         SP: "🌈究極神引き!!!🌈"
     };
 
-    const card = `
+    /*const card = `
     <img src="${meme.url}" alt="meme">
     <div class="rarity-label">${rarity} ｜ ${meme.title}<br><small>${msg[rarity]}</small></div>
-  `;
+    <div class="rarity-label">${rarity} ｜ ${capitalizeFirstLetter(meme.title)}<br><small>${msg[rarity]}</small></div>
+  `; Test*/
+
+    // 如果 meme.title 是 undefined 或空字串，就用 "Waifu" 替代
+    const name = meme.title || "Waifu";//Test
+
+    const card = `
+    <img src="${meme.url}" alt="Waifu">
+    <div class="rarity-label">${rarity} ｜ ${capitalizeFirstLetter(name)}<br><small>${msg[rarity]}</small></div>
+`; //Test
 
     col.innerHTML = card;
     container.appendChild(col);
 
     // 抽卡時播放稀有度音效（如果你想保留原本這個功能）
-    if (rarity === "N") SoundOfN.play();
-    if (rarity === "R") SoundOfR.play();
-    if (rarity === "SR") SoundOfSR.play();
-    if (rarity === "SSR") SoundOfSSR.play();
-    if (rarity === "UR") SoundOfUR.play();
-    if (rarity === "SP") SoundOfSP.play();
+    //if (rarity === "N") SoundOfN.play(); Test
+    //if (rarity === "R") SoundOfR.play(); Test
+    //if (rarity === "SR") SoundOfSR.play(); Test
+    //if (rarity === "SSR") SoundOfSSR.play(); Test
+    //if (rarity === "UR") SoundOfUR.play(); Test
+    //if (rarity === "SP") SoundOfSP.play(); Test
+
+    if (rarity === "N") {
+        SoundOfN.currentTime = 0;
+        SoundOfN.play();
+    }
+    if (rarity === "R") {
+        SoundOfR.currentTime = 0;
+        SoundOfR.play();
+    }
+    if (rarity === "SR") {
+        SoundOfSR.currentTime = 0;
+        SoundOfSR.play();
+    }
+    if (rarity === "SSR") {
+        SoundOfSSR.currentTime = 0;
+        SoundOfSSR.play();
+    }
+    if (rarity === "UR") {
+        SoundOfUR.currentTime = 0;
+        SoundOfUR.play();
+    }
+    if (rarity === "SP") {
+        SoundOfSP.currentTime = 0;
+        SoundOfSP.play();
+    }
+
+
 }
 
 function delay(ms) {
